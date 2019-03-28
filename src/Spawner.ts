@@ -1,5 +1,5 @@
 export function mainSpawner(spawn: StructureSpawn): void {
-    if (spawn.energy >= 200 && Object.keys(Memory.creeps).length <= 6) {
+    if (spawn.energy >= 200 && Object.keys(Memory.creeps).length <= 10) {
         crearRecolector(spawn);
         crearMejorador(spawn);
         //crearConstructor(spawn);
