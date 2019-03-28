@@ -4,7 +4,7 @@ import { exportStats } from "./Stats/StatsAGS";
 
 import { eliminarCreepsMuertos } from "./LimpiarMemoria";
 import { mainSpawner } from "./Spawner";
-import { mainRoles } from "./Roles";
+import { mainRoles } from "./Roles/Roles";
 
 // Compilar: npm run push-main
 export const loop = function () {
