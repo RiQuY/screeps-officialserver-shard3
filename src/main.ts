@@ -6,6 +6,7 @@ import { eliminarCreepsMuertos } from "./LimpiarMemoria";
 import { mainSpawner } from "./Spawner";
 import { mainRoles } from "./Roles";
 
+// Compilar: npm run push-main
 export const loop = function () {
     console.log(`Current game tick is ${Game.time}`);
     
