@@ -1,4 +1,3 @@
-
 export class RoomRoles {
     public harvesters: number;
     public upgraders: number;

@@ -28,8 +28,7 @@ export function generateStatsBK() {
 
             if (room.storage) {
                 stored = room.storage.store[RESOURCE_ENERGY];
-                storedTotal = room.storage.storeCapacity;
-                //storedTotal = room.storage.storeCapacity[RESOURCE_ENERGY];
+                storedTotal = room.storage.store.getCapacity();
             }
             else {
                 stored = 0;
@@ -42,9 +41,9 @@ export function generateStatsBK() {
             Memory.stats['room.' + room.name + '.myRoom'] = undefined;
         }
     }
-    Memory.stats['gcl.progress'] = Game.gcl.progress;
-    Memory.stats['gcl.progressTotal'] = Game.gcl.progressTotal;
-    Memory.stats['gcl.level'] = Game.gcl.level;
+    Memory.stats.gcl.progress = Game.gcl.progress;
+    Memory.stats.gcl.progressTotal = Game.gcl.progressTotal;
+    Memory.stats.gcl.level = Game.gcl.level;
     for (let spawnKey in spawns) {
         let spawn: StructureSpawn = Game.spawns[spawnKey];
         Memory.stats['spawn.' + spawn.name + '.defenderIndex'] = spawn.memory;
@@ -58,8 +57,8 @@ export function generateStatsBK() {
     Memory.stats['cpu.Creeps'] = functionsExecutedFromCreeps;
     Memory.stats['cpu.SumProfiling'] = sumOfProfiller;
     Memory.stats['cpu.Start'] = startOfMain;*/
-    Memory.stats['cpu.bucket'] = Game.cpu.bucket;
-    Memory.stats['cpu.limit'] = Game.cpu.limit;/*
+    Memory.stats['cpu']['bucket'] = Game.cpu.bucket;
+    Memory.stats['cpu']['limit'] = Game.cpu.limit;/*
     Memory.stats['cpu.stats'] = Game.cpu.getUsed() - lastTick;*/
-    Memory.stats['cpu.getUsed'] = Game.cpu.getUsed();
+    Memory.stats['cpu']['getUsed'] = Game.cpu.getUsed();
 }

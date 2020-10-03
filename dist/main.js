@@ -24,8 +24,7 @@ function generateStatsBK() {
             let storedTotal = 0;
             if (room.storage) {
                 stored = room.storage.store[RESOURCE_ENERGY];
-                storedTotal = room.storage.storeCapacity;
-                //storedTotal = room.storage.storeCapacity[RESOURCE_ENERGY];
+                storedTotal = room.storage.store.getCapacity();
             }
             else {
                 stored = 0;
@@ -37,9 +36,9 @@ function generateStatsBK() {
             Memory.stats['room.' + room.name + '.myRoom'] = undefined;
         }
     }
-    Memory.stats['gcl.progress'] = Game.gcl.progress;
-    Memory.stats['gcl.progressTotal'] = Game.gcl.progressTotal;
-    Memory.stats['gcl.level'] = Game.gcl.level;
+    Memory.stats.gcl.progress = Game.gcl.progress;
+    Memory.stats.gcl.progressTotal = Game.gcl.progressTotal;
+    Memory.stats.gcl.level = Game.gcl.level;
     for (let spawnKey in spawns) {
         let spawn = Game.spawns[spawnKey];
         Memory.stats['spawn.' + spawn.name + '.defenderIndex'] = spawn.memory;
@@ -53,10 +52,10 @@ function generateStatsBK() {
     Memory.stats['cpu.Creeps'] = functionsExecutedFromCreeps;
     Memory.stats['cpu.SumProfiling'] = sumOfProfiller;
     Memory.stats['cpu.Start'] = startOfMain;*/
-    Memory.stats['cpu.bucket'] = Game.cpu.bucket;
-    Memory.stats['cpu.limit'] = Game.cpu.limit; /*
+    Memory.stats['cpu']['bucket'] = Game.cpu.bucket;
+    Memory.stats['cpu']['limit'] = Game.cpu.limit; /*
     Memory.stats['cpu.stats'] = Game.cpu.getUsed() - lastTick;*/
-    Memory.stats['cpu.getUsed'] = Game.cpu.getUsed();
+    Memory.stats['cpu']['getUsed'] = Game.cpu.getUsed();
 }
 
 function deleteDeadCreeps() {
@@ -68,26 +67,41 @@ function deleteDeadCreeps() {
     }
 }
 
+class Spawner {
+    static generateOptions(role, room) {
+        let options = {
+            memory: {
+                role: role,
+                room: room,
+                working: false
+            }
+        };
+        return options;
+    }
+    static createHarvester(spawn) {
+        let role = 'Harvester';
+        spawn.spawnCreep([WORK, CARRY, MOVE], 'Harvester ' + Date.now(), Spawner.generateOptions(role, spawn.room.name));
+    }
+    static crearMejorador(spawn) {
+        let role = 'Upgrader';
+        spawn.spawnCreep([WORK, CARRY, MOVE], 'Upgrader ' + Game.time, Spawner.generateOptions(role, spawn.room.name));
+    }
+    static crearConstructor(spawn) {
+        let role = 'Builder';
+        spawn.spawnCreep([WORK, CARRY, MOVE], 'Upgrader ' + Game.time, Spawner.generateOptions(role, spawn.room.name));
+    }
+}
+
 class SpawnController {
     static main() {
         for (const spawnName in Game.spawns) {
             if (Game.spawns.hasOwnProperty(spawnName)) {
                 const spawn = Game.spawns[spawnName];
                 if (spawn.store[RESOURCE_ENERGY] >= 200 && Object.keys(Game.creeps).length <= 5) {
-                    SpawnController.createHarvester(spawn);
+                    Spawner.createHarvester(spawn);
                 }
             }
         }
-    }
-    static createHarvester(spawn) {
-        let options = {
-            memory: {
-                role: 'Harvester',
-                room: spawn.room.name,
-                working: false
-            }
-        };
-        spawn.spawnCreep([WORK, CARRY, MOVE], 'Harvester ' + Date.now(), options);
     }
 }
 
@@ -106,31 +120,10 @@ class RolesController {
     }
 }
 
-// Compilar: npm run push-main
+// Compilar: npm run build
 const loop = function () {
     console.log(`Current game tick is ${Game.time}`);
     deleteDeadCreeps();
-    /*for (const nombreZona in Game.rooms) {
-        const zona = Game.rooms[nombreZona].
-        console.log(nombreZona);
-    }*/
-    /*
-        for (const nombreSpawn in Memory.spawns) {
-            const spawn = Game.spawns[nombreSpawn];
-            mainSpawner(spawn);
-        }
-        
-        for (const nombreCreep in Memory.creeps) {
-            const creep = Game.creeps[nombreCreep];
-            mainRoles(creep);
-        }
-    */
-    /*
-    for (const creepName in Game.creeps) {
-        if (Game.creeps.hasOwnProperty(creepName)) {
-            const creep = Game.creeps[creepName];
-        }
-    }*/
     SpawnController.main();
     RolesController.main();
     generateStatsBK();
