@@ -11,12 +11,6 @@ import { deleteDeadCreeps } from "./utils/MemoryClean";
 import { SpawnController } from "./controllers/SpawnController";
 import { RolesController } from "./controllers/RolesController";
 
-declare global {
-    interface Memory {
-        roomRoles: RoomRoles;
-    }
-}
-
 // Compilar: npm run push-main
 export const loop = function () {
     console.log(`Current game tick is ${Game.time}`);

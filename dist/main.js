@@ -3,7 +3,7 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 // Put in your main loop
-function generarStatsBK() {
+function generateStatsBK() {
     if (Memory.stats == undefined) {
         Memory.stats = {};
     }
@@ -59,7 +59,7 @@ function generarStatsBK() {
     Memory.stats['cpu.getUsed'] = Game.cpu.getUsed();
 }
 
-function eliminarCreepsMuertos() {
+function deleteDeadCreeps() {
     // Automatically delete memory of missing creeps
     for (const name in Memory.creeps) {
         if (!(name in Game.creeps)) {
@@ -68,108 +68,63 @@ function eliminarCreepsMuertos() {
     }
 }
 
-function mainSpawner(spawn) {
-    if (spawn.energy >= 200 && Object.keys(Memory.creeps).length <= 10) {
-        crearRecolector(spawn);
-        crearMejorador(spawn);
-        //crearConstructor(spawn);
+class SpawnController {
+    static main() {
+        for (const spawnName in Game.spawns) {
+            if (Game.spawns.hasOwnProperty(spawnName)) {
+                const spawn = Game.spawns[spawnName];
+                if (spawn.store[RESOURCE_ENERGY] >= 200 && Object.keys(Game.creeps).length <= 5) {
+                    SpawnController.createHarvester(spawn);
+                }
+            }
+        }
     }
-}
-function crearRecolector(spawn) {
-    let options = {
-        memory: {
-            rol: 'Recolector',
-            room: spawn.room.name,
-            trabajando: false
-        }
-    };
-    spawn.spawnCreep([WORK, CARRY, MOVE], 'Recolector' + Date.now(), options);
-}
-function crearMejorador(spawn) {
-    let options = {
-        memory: {
-            rol: 'Mejorador',
-            room: spawn.room.name,
-            trabajando: false
-        }
-    };
-    spawn.spawnCreep([WORK, CARRY, MOVE], 'Mejorador' + Date.now(), options);
+    static createHarvester(spawn) {
+        let options = {
+            memory: {
+                role: 'Harvester',
+                room: spawn.room.name,
+                working: false
+            }
+        };
+        spawn.spawnCreep([WORK, CARRY, MOVE], 'Harvester ' + Date.now(), options);
+    }
 }
 
-function mainRoles(creep) {
-    recolectar(creep);
-    //llenarSpawn(creep);
-    mejorarControlador(creep);
-}
-function recolectar(creep) {
-    if (creep.carry.energy < creep.carryCapacity) {
-        var sources = creep.room.find(FIND_SOURCES);
-        if (creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
-            creep.moveTo(sources[0], { visualizePathStyle: { stroke: '#ffaa00' } });
-        }
-    }
-    else {
-        var targets = creep.room.find(FIND_STRUCTURES, {
-            filter: (structure) => {
-                return (structure.structureType == STRUCTURE_EXTENSION ||
-                    structure.structureType == STRUCTURE_SPAWN ||
-                    structure.structureType == STRUCTURE_TOWER) && structure.energy < structure.energyCapacity;
-            }
-        });
-        if (targets.length > 0) {
-            if (creep.transfer(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(targets[0], { visualizePathStyle: { stroke: '#ffffff' } });
-            }
-        }
-    }
-}
-function mejorarControlador(creep) {
-    //const creep = Game.creeps[nombreCreep];
-    /*
-    if (creep.room.controller) {
-        if (creep.upgradeController(creep.room.controller) === ERR_NOT_IN_RANGE) {
-            creep.moveTo(creep.room.controller);
-        }
-    }
-    */
-    if (creep.memory.trabajando && creep.carry.energy == 0) {
-        creep.memory.trabajando = false;
-        creep.say('🔄 harvest');
-    }
-    if (!creep.memory.trabajando && creep.carry.energy == creep.carryCapacity) {
-        creep.memory.trabajando = true;
-        creep.say('⚡ upgrade');
-    }
-    if (creep.memory.trabajando) {
-        if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-            creep.moveTo(creep.room.controller, { visualizePathStyle: { stroke: '#ffffff' } });
-        }
-    }
-    else {
-        var sources = creep.room.find(FIND_SOURCES);
-        if (creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
-            creep.moveTo(sources[0], { visualizePathStyle: { stroke: '#ffaa00' } });
-        }
+class RolesController {
+    static main() {
+        Memory.roomRoles = new RoomRoles(2, 2, 2, 1);
     }
 }
 
 // Compilar: npm run push-main
 const loop = function () {
     console.log(`Current game tick is ${Game.time}`);
-    eliminarCreepsMuertos();
+    deleteDeadCreeps();
     /*for (const nombreZona in Game.rooms) {
         const zona = Game.rooms[nombreZona].
         console.log(nombreZona);
     }*/
-    for (const nombreSpawn in Memory.spawns) {
-        const spawn = Game.spawns[nombreSpawn];
-        mainSpawner(spawn);
-    }
-    for (const nombreCreep in Memory.creeps) {
-        const creep = Game.creeps[nombreCreep];
-        mainRoles(creep);
-    }
-    generarStatsBK();
+    /*
+        for (const nombreSpawn in Memory.spawns) {
+            const spawn = Game.spawns[nombreSpawn];
+            mainSpawner(spawn);
+        }
+        
+        for (const nombreCreep in Memory.creeps) {
+            const creep = Game.creeps[nombreCreep];
+            mainRoles(creep);
+        }
+    */
+    /*
+    for (const creepName in Game.creeps) {
+        if (Game.creeps.hasOwnProperty(creepName)) {
+            const creep = Game.creeps[creepName];
+        }
+    }*/
+    SpawnController.main();
+    RolesController.main();
+    generateStatsBK();
     //exportStats();
     //Stats.run(); 
 };

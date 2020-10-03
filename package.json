@@ -1,27 +1,26 @@
 {
-  "name": "screeps-screepsoficial-shard3",
+  "name": "screeps-officialserver-shard3",
   "version": "1.0.0",
   "description": "",
   "main": "main.js",
   "scripts": {
-    "build": "rollup -c",
-    "push-main": "rollup -c --environment DEST:main"
+    "build": "rollup -c"
   },
   "keywords": [
     "screeps"
   ],
-  "author": "Ricardo Stryki",
+  "author": "RiQuY",
   "license": "ISC",
   "devDependencies": {
     "@types/lodash": "*",
     "@types/screeps": "*",
     "@rollup/plugin-commonjs": "*",
     "@rollup/plugin-node-resolve": "*",
-    "@rollup/plugin-typescript": "*",
     "lodash": "^3.10.1",
     "rollup": "*",
     "rollup-plugin-clear": "*",
     "rollup-plugin-screeps": "*",
+    "rollup-plugin-typescript2": "*",
     "tslib": "*",
     "typescript": "*"
   }
