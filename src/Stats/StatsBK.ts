@@ -16,12 +16,12 @@ export function generateStatsBK() {
         let room: Room = Game.rooms[roomKey];
         let isMyRoom = (room.controller ? room.controller.my : 0);
         if (isMyRoom) {
-            Memory.stats.room[room.name].myRoom = 1;
-            Memory.stats.room[room.name].energyAvailable = room.energyAvailable;
-            Memory.stats.room[room.name].energyCapacityAvailable = room.energyCapacityAvailable;
+            Memory.stats.room.toString(room.name).myRoom = 1;
+            Memory.stats.room.toString(room.name).energyAvailable = room.energyAvailable;
+            Memory.stats.room.toString(room.name).energyCapacityAvailable = room.energyCapacityAvailable;
             if (room.controller !== undefined) {
-                Memory.stats.room[room.name].controllerProgress = room.controller.progress;
-                Memory.stats.room[room.name].controllerProgressTotal = room.controller.progressTotal;
+                Memory.stats.room.toString(room.name).controllerProgress = room.controller.progress;
+                Memory.stats.room.toString(room.name).controllerProgressTotal = room.controller.progressTotal;
             }
             let stored = 0;
             let storedTotal = 0;
