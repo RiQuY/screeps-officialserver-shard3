@@ -1,4 +1,4 @@
-class CreepWorker {
+export class CreepWorker {
     private creep: Creep;
     private role: string;
     private working: boolean;

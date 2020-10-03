@@ -1,3 +1,3 @@
-class Spawner {
+export class Spawner {
     
 }

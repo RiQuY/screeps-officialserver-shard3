@@ -1,5 +1,5 @@
 
-class RoomRoles {
+export class RoomRoles {
     public harvesters: number;
     public upgraders: number;
     public repairers: number;

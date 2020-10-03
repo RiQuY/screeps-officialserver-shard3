@@ -1,3 +1,5 @@
+import { RoomRoles } from "../models/RoomRoles";
+
 declare global {
     interface Memory {
         roomRoles: RoomRoles
