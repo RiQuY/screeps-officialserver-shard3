@@ -1,5 +1,11 @@
+declare global {
+    interface Memory {
+        stats: any;
+    }
+}
+
 // Put in your main loop
-export function generarStatsBK() {
+export function generateStatsBK() {
     if (Memory.stats == undefined) {
         Memory.stats = {};
     }

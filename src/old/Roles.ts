@@ -1,3 +1,15 @@
+declare global {
+    interface Creep {
+        memory: CreepMemory;
+    }
+
+    interface CreepMemory {
+        role: string;
+        room: string;
+        working: boolean;
+    }
+}
+
 export function mainRoles(creep: Creep) {
     recolectar(creep);
     //llenarSpawn(creep);
@@ -6,14 +18,14 @@ export function mainRoles(creep: Creep) {
 
 function recolectar(creep: Creep): void {/*
     //const creep = Game.creeps[nombreCreep];
-    if (creep.memory.trabajando === true && creep.carry.energy === 0) {
-      creep.memory.trabajando = false;
+    if (creep.memory.working === true && creep.carry.energy === 0) {
+      creep.memory.working = false;
     }
-    else if (creep.memory.trabajando === false && creep.carry.energy === creep.carryCapacity) {
-      creep.memory.trabajando = true;
+    else if (creep.memory.working === false && creep.carry.energy === creep.carryCapacity) {
+      creep.memory.working = true;
     }
   
-    if (creep.memory.trabajando === true) {
+    if (creep.memory.working === true) {
       if (creep.memory.rol === "Recolector") {
         llenarSpawn(creep);
       }
@@ -67,16 +79,16 @@ function mejorarControlador(creep: Creep): void {
         }
     }
     */
-    if (creep.memory.trabajando && creep.carry.energy == 0) {
-        creep.memory.trabajando = false;
+    if (creep.memory.working && creep.carry.energy == 0) {
+        creep.memory.working = false;
         creep.say('🔄 harvest');
     }
-    if (!creep.memory.trabajando && creep.carry.energy == creep.carryCapacity) {
-        creep.memory.trabajando = true;
+    if (!creep.memory.working && creep.carry.energy == creep.carryCapacity) {
+        creep.memory.working = true;
         creep.say('⚡ upgrade');
     }
 
-    if (creep.memory.trabajando) {
+    if (creep.memory.working) {
         if (creep.upgradeController(<StructureController> creep.room.controller) == ERR_NOT_IN_RANGE) {
             creep.moveTo(<StructureController> creep.room.controller, { visualizePathStyle: { stroke: '#ffffff' } });
         }

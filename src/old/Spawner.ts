@@ -9,32 +9,32 @@ export function mainSpawner(spawn: StructureSpawn): void {
 function crearRecolector(spawn: StructureSpawn): void {
     let options: SpawnOptions = {
         memory: {
-            rol: 'Recolector',
+            role: 'Recolector',
             room: spawn.room.name,
-            trabajando: false
+            working: false
         } 
     }
-    spawn.spawnCreep([WORK, CARRY, MOVE], 'Recolector'+Date.now(), options );
+    spawn.spawnCreep([WORK, CARRY, MOVE], 'Recolector'+Game.time, options );
 }
 
 function crearMejorador(spawn: StructureSpawn): void {
     let options: SpawnOptions = {
         memory: {
-            rol: 'Mejorador',
+            role: 'Mejorador',
             room: spawn.room.name,
-            trabajando: false
+            working: false
         } 
     }
-    spawn.spawnCreep([WORK, CARRY, MOVE], 'Mejorador'+Date.now(), options );
+    spawn.spawnCreep([WORK, CARRY, MOVE], 'Mejorador'+Game.time, options );
 }
 
 function crearConstructor(spawn: StructureSpawn): void {
     let options: SpawnOptions = {
         memory: {
-            rol: 'Constructor',
+            role: 'Constructor',
             room: spawn.room.name,
-            trabajando: false
+            working: false
         } 
     }
-    spawn.spawnCreep([WORK, CARRY, MOVE], 'Constructor'+Date.now(), options );
+    spawn.spawnCreep([WORK, CARRY, MOVE], 'Constructor'+Game.time, options );
 }

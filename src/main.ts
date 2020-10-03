@@ -1,21 +1,34 @@
-import { generarStatsBK } from "./Stats/StatsBK";
-import { exportStats } from "./Stats/StatsAGS";
+import { generateStatsBK } from "./stats/StatsBK";
+//import { exportStats } from "./stats/StatsAGS";
 //import { Stats } from "./Stats/StatsOvermind";
 
-import { eliminarCreepsMuertos } from "./LimpiarMemoria";
-import { mainSpawner } from "./Spawner";
-import { mainRoles } from "./Roles/Roles";
+import { deleteDeadCreeps } from "./utils/MemoryClean";
+//import { mainSpawner } from "./old/Spawner";
+//import { mainRoles } from "./old/Roles";
+
+//import { Memory } from "./interfaces/Memory";
+
+import { SpawnController } from "./controllers/SpawnController";
+import { RolesController } from "./controllers/RolesController";
+
+declare global {
+    interface Memory {
+        roomRoles: RoomRoles;
+    }
+}
 
 // Compilar: npm run push-main
 export const loop = function () {
     console.log(`Current game tick is ${Game.time}`);
     
-    eliminarCreepsMuertos();
+    deleteDeadCreeps();
     
     /*for (const nombreZona in Game.rooms) {
         const zona = Game.rooms[nombreZona].
         console.log(nombreZona);
     }*/
+
+/*
     for (const nombreSpawn in Memory.spawns) {
         const spawn = Game.spawns[nombreSpawn];
         mainSpawner(spawn);
@@ -25,8 +38,19 @@ export const loop = function () {
         const creep = Game.creeps[nombreCreep];
         mainRoles(creep);
     }
+*/
 
-    generarStatsBK();
+    /*
+    for (const creepName in Game.creeps) {
+        if (Game.creeps.hasOwnProperty(creepName)) {
+            const creep = Game.creeps[creepName];
+        }
+    }*/
+    
+    SpawnController.main();
+    RolesController.main();
+
+    generateStatsBK();
     //exportStats();
     //Stats.run(); 
 };
