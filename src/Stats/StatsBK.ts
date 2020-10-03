@@ -17,6 +17,7 @@ export function generateStatsBK() {
         let isMyRoom = (room.controller ? room.controller.my : 0);
         if (isMyRoom) {
             Memory.stats.rooms = {};
+            Memory.stats.rooms[room.name] = {};
             Memory.stats.rooms[room.name].myRoom = 1;
             Memory.stats.rooms[room.name].energyAvailable = room.energyAvailable;
             Memory.stats.rooms[room.name].energyCapacityAvailable = room.energyCapacityAvailable;
@@ -40,18 +41,22 @@ export function generateStatsBK() {
         }
         else {
             Memory.stats.rooms = {};
+            Memory.stats.rooms[room.name] = {};
             Memory.stats.rooms[room.name].myRoom = undefined;
         }
     }
+    Memory.stats.gcl = {};
     Memory.stats.gcl.progress = Game.gcl.progress;
     Memory.stats.gcl.progressTotal = Game.gcl.progressTotal;
     Memory.stats.gcl.level = Game.gcl.level;
     Memory.stats.spawns = {};
     for (let spawnKey in spawns) {
         let spawn: StructureSpawn = Game.spawns[spawnKey];
+        Memory.stats.spawns[spawn.name] = {};
         Memory.stats.spawns[spawn.name].defenderIndex = spawn.memory;
         //Memory.stats['spawn.' + spawn.name + '.defenderIndex'] = spawn.memory['defenderIndex'];
     }
+    Memory.stats.cpu = {};
     /*
     Memory.stats['cpu.CreepManagers'] = creepManagement;
     Memory.stats['cpu.Towers'] = towersRunning;

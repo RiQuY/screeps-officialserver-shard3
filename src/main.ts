@@ -14,8 +14,8 @@ export const loop = function () {
     
     deleteDeadCreeps();
     
-    SpawnController.main();
     RolesController.main();
+    SpawnController.main();
 
     generateStatsBK();
     //exportStats();
