@@ -18,8 +18,8 @@ function generateStatsBK() {
             Memory.stats.rooms[room.name].energyAvailable = room.energyAvailable;
             Memory.stats.rooms[room.name].energyCapacityAvailable = room.energyCapacityAvailable;
             if (room.controller !== undefined) {
-                Memory.stats.room[room.name].controllerProgress = room.controller.progress;
-                Memory.stats.room[room.name].controllerProgressTotal = room.controller.progressTotal;
+                Memory.stats.rooms[room.name].controllerProgress = room.controller.progress;
+                Memory.stats.rooms[room.name].controllerProgressTotal = room.controller.progressTotal;
             }
             let stored = 0;
             let storedTotal = 0;
@@ -41,6 +41,7 @@ function generateStatsBK() {
     Memory.stats.gcl.progress = Game.gcl.progress;
     Memory.stats.gcl.progressTotal = Game.gcl.progressTotal;
     Memory.stats.gcl.level = Game.gcl.level;
+    Memory.stats.spawns = {};
     for (let spawnKey in spawns) {
         let spawn = Game.spawns[spawnKey];
         Memory.stats.spawns[spawn.name].defenderIndex = spawn.memory;
@@ -122,9 +123,9 @@ class RolesController {
     }
 }
 
+Memory.stats = {};
 // Compilar: npm run build
 const loop = function () {
-    console.log(`Current game tick is ${Game.time}`);
     deleteDeadCreeps();
     SpawnController.main();
     RolesController.main();

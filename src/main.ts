@@ -6,9 +6,11 @@ import { deleteDeadCreeps } from "./utils/MemoryClean";
 import { SpawnController } from "./controllers/SpawnController";
 import { RolesController } from "./controllers/RolesController";
 
+
+Memory.stats = {};
+
 // Compilar: npm run build
 export const loop = function () {
-    console.log(`Current game tick is ${Game.time}`);
     
     deleteDeadCreeps();
     
