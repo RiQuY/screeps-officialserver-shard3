@@ -16,7 +16,7 @@ export function generateStatsBK() {
         let room: Room = Game.rooms[roomKey];
         let isMyRoom = (room.controller ? room.controller.my : 0);
         if (isMyRoom) {
-            Memory.stats.rooms[room.name] = {};
+            Memory.stats.rooms = {};
             Memory.stats.rooms[room.name].myRoom = 1;
             Memory.stats.rooms[room.name].energyAvailable = room.energyAvailable;
             Memory.stats.rooms[room.name].energyCapacityAvailable = room.energyCapacityAvailable;
@@ -39,7 +39,7 @@ export function generateStatsBK() {
             Memory.stats.rooms[room.name].storedEnergy = stored;
         }
         else {
-            Memory.stats.rooms[room.name] = {};
+            Memory.stats.rooms = {};
             Memory.stats.rooms[room.name].myRoom = undefined;
         }
     }
