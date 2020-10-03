@@ -16,12 +16,12 @@ export function generateStatsBK() {
         let room: Room = Game.rooms[roomKey];
         let isMyRoom = (room.controller ? room.controller.my : 0);
         if (isMyRoom) {
-            Memory.stats['room.' + room.name + '.myRoom'] = 1;
-            Memory.stats['room.' + room.name + '.energyAvailable'] = room.energyAvailable;
-            Memory.stats['room.' + room.name + '.energyCapacityAvailable'] = room.energyCapacityAvailable;
+            Memory.stats.room[room.name].myRoom = 1;
+            Memory.stats.room[room.name].energyAvailable = room.energyAvailable;
+            Memory.stats.room[room.name].energyCapacityAvailable = room.energyCapacityAvailable;
             if (room.controller !== undefined) {
-                Memory.stats['room.' + room.name + '.controllerProgress'] = room.controller.progress;
-                Memory.stats['room.' + room.name + '.controllerProgressTotal'] = room.controller.progressTotal;
+                Memory.stats.room[room.name].controllerProgress = room.controller.progress;
+                Memory.stats.room[room.name].controllerProgressTotal = room.controller.progressTotal;
             }
             let stored = 0;
             let storedTotal = 0;
@@ -35,10 +35,10 @@ export function generateStatsBK() {
                 storedTotal = 0;
             }
 
-            Memory.stats['room.' + room.name + '.storedEnergy'] = stored;
+            Memory.stats.room[room.name].storedEnergy = stored;
         }
         else {
-            Memory.stats['room.' + room.name + '.myRoom'] = undefined;
+            Memory.stats.room[room.name].myRoom = undefined;
         }
     }
     Memory.stats.gcl.progress = Game.gcl.progress;
@@ -46,7 +46,7 @@ export function generateStatsBK() {
     Memory.stats.gcl.level = Game.gcl.level;
     for (let spawnKey in spawns) {
         let spawn: StructureSpawn = Game.spawns[spawnKey];
-        Memory.stats['spawn.' + spawn.name + '.defenderIndex'] = spawn.memory;
+        Memory.stats.spawn[spawn.name].defenderIndex = spawn.memory;
         //Memory.stats['spawn.' + spawn.name + '.defenderIndex'] = spawn.memory['defenderIndex'];
     }
     /*
@@ -57,8 +57,8 @@ export function generateStatsBK() {
     Memory.stats['cpu.Creeps'] = functionsExecutedFromCreeps;
     Memory.stats['cpu.SumProfiling'] = sumOfProfiller;
     Memory.stats['cpu.Start'] = startOfMain;*/
-    Memory.stats['cpu']['bucket'] = Game.cpu.bucket;
-    Memory.stats['cpu']['limit'] = Game.cpu.limit;/*
+    Memory.stats.cpu.bucket = Game.cpu.bucket;
+    Memory.stats.cpu.limit = Game.cpu.limit;/*
     Memory.stats['cpu.stats'] = Game.cpu.getUsed() - lastTick;*/
-    Memory.stats['cpu']['getUsed'] = Game.cpu.getUsed();
+    Memory.stats.cpu.getUsed = Game.cpu.getUsed();
 }
