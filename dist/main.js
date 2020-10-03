@@ -13,12 +13,13 @@ function generateStatsBK() {
         let room = Game.rooms[roomKey];
         let isMyRoom = (room.controller ? room.controller.my : 0);
         if (isMyRoom) {
-            Memory.stats.room.toString(room.name).myRoom = 1;
-            Memory.stats.room.toString(room.name).energyAvailable = room.energyAvailable;
-            Memory.stats.room.toString(room.name).energyCapacityAvailable = room.energyCapacityAvailable;
+            Memory.stats.rooms[room.name] = {};
+            Memory.stats.rooms[room.name].myRoom = 1;
+            Memory.stats.rooms[room.name].energyAvailable = room.energyAvailable;
+            Memory.stats.rooms[room.name].energyCapacityAvailable = room.energyCapacityAvailable;
             if (room.controller !== undefined) {
-                Memory.stats.room.toString(room.name).controllerProgress = room.controller.progress;
-                Memory.stats.room.toString(room.name).controllerProgressTotal = room.controller.progressTotal;
+                Memory.stats.room[room.name].controllerProgress = room.controller.progress;
+                Memory.stats.room[room.name].controllerProgressTotal = room.controller.progressTotal;
             }
             let stored = 0;
             let storedTotal = 0;
@@ -30,10 +31,11 @@ function generateStatsBK() {
                 stored = 0;
                 storedTotal = 0;
             }
-            Memory.stats.room[room.name].storedEnergy = stored;
+            Memory.stats.rooms[room.name].storedEnergy = stored;
         }
         else {
-            Memory.stats.room[room.name].myRoom = undefined;
+            Memory.stats.rooms[room.name] = {};
+            Memory.stats.rooms[room.name].myRoom = undefined;
         }
     }
     Memory.stats.gcl.progress = Game.gcl.progress;
@@ -41,7 +43,7 @@ function generateStatsBK() {
     Memory.stats.gcl.level = Game.gcl.level;
     for (let spawnKey in spawns) {
         let spawn = Game.spawns[spawnKey];
-        Memory.stats.spawn[spawn.name].defenderIndex = spawn.memory;
+        Memory.stats.spawns[spawn.name].defenderIndex = spawn.memory;
         //Memory.stats['spawn.' + spawn.name + '.defenderIndex'] = spawn.memory['defenderIndex'];
     }
     /*
