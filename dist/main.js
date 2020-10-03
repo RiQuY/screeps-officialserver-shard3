@@ -91,6 +91,15 @@ class SpawnController {
     }
 }
 
+class RoomRoles {
+    constructor(harvesters, upgraders, repairers, builders) {
+        this.harvesters = harvesters;
+        this.upgraders = upgraders;
+        this.repairers = repairers;
+        this.builders = builders;
+    }
+}
+
 class RolesController {
     static main() {
         Memory.roomRoles = new RoomRoles(2, 2, 2, 1);

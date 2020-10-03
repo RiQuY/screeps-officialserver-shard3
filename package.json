@@ -14,11 +14,11 @@
   "devDependencies": {
     "@types/lodash": "*",
     "@types/screeps": "*",
-    "@rollup/plugin-commonjs": "*",
-    "@rollup/plugin-node-resolve": "*",
     "lodash": "^3.10.1",
     "rollup": "*",
     "rollup-plugin-clear": "*",
+    "rollup-plugin-commonjs": "*",
+    "rollup-plugin-node-resolve": "*",
     "rollup-plugin-screeps": "*",
     "rollup-plugin-typescript2": "*",
     "tslib": "*",
