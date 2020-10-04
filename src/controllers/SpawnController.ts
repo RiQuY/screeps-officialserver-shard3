@@ -7,12 +7,13 @@ export class SpawnController {
         for (const spawnName in Game.spawns) {
             if (Game.spawns.hasOwnProperty(spawnName)) {
                 const spawn = Game.spawns[spawnName];
+
+                //Memory.creeps.filter()
+
                 if (spawn.store[RESOURCE_ENERGY] >= 200 && Object.keys(Game.creeps).length <= 5) {
                     Spawner.createHarvester(spawn);
                 }
             }
         }
     }
-        
-    
 }

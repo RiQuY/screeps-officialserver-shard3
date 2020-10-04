@@ -14,7 +14,7 @@ export class Spawner {
     
     public static createHarvester(spawn: StructureSpawn) {
         let role = 'Harvester';
-        spawn.spawnCreep([WORK, CARRY, MOVE], 'Harvester '+Date.now(), Spawner.generateOptions(role, spawn.room.name) );
+        spawn.spawnCreep([WORK, CARRY, MOVE], 'Harvester '+Game.time, Spawner.generateOptions(role, spawn.room.name) );
     }
 
     public static crearMejorador(spawn: StructureSpawn): void {

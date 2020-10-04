@@ -5,7 +5,8 @@
   "main": "main.js",
   "scripts": {
     "build": "rollup -c",
-    "push-main": "rollup -c --environment DEST:main"
+    "push-main": "rollup -c --environment DEST:main",
+    "push-sim": "rollup -c --environment DEST:sim"
   },
   "keywords": [
     "screeps"

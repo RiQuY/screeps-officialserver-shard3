@@ -88,7 +88,7 @@ class Spawner {
     }
     static createHarvester(spawn) {
         let role = 'Harvester';
-        spawn.spawnCreep([WORK, CARRY, MOVE], 'Harvester ' + Date.now(), Spawner.generateOptions(role, spawn.room.name));
+        spawn.spawnCreep([WORK, CARRY, MOVE], 'Harvester ' + Game.time, Spawner.generateOptions(role, spawn.room.name));
     }
     static crearMejorador(spawn) {
         let role = 'Upgrader';
@@ -105,6 +105,7 @@ class SpawnController {
         for (const spawnName in Game.spawns) {
             if (Game.spawns.hasOwnProperty(spawnName)) {
                 const spawn = Game.spawns[spawnName];
+                //Memory.creeps.filter()
                 if (spawn.store[RESOURCE_ENERGY] >= 200 && Object.keys(Game.creeps).length <= 5) {
                     Spawner.createHarvester(spawn);
                 }
@@ -129,12 +130,11 @@ class RolesController {
 }
 
 Memory.stats = {};
-delete Memory.spawns['Spawn1'];
 // Compilar: npm run build
 const loop = function () {
     deleteDeadCreeps();
-    SpawnController.main();
     RolesController.main();
+    SpawnController.main();
     generateStatsBK();
     //exportStats();
     //Stats.run(); 
