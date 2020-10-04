@@ -1,25 +1,28 @@
+/*
 declare global {
     interface Memory {
         stats: {
-            rooms: {
-                [name: string]: RoomStats,
-            },
+            cpu: {
+                bucket: number;
+                limit: number;
+                used: number;
+            };
             gcl: {
                 progress: number;
                 progressTotal: number;
                 level: number;
-            },
+            };
+            rooms: {
+                [name: string]: RoomStats;
+            };
             spawns: {
-                [name: string]: SpawnStats,
-            },
-            cpu: {
-                bucket: number;
-                limit: number;
-                getUsed: number;
-            }
+                [name: string]: SpawnStats;
+            };
+            time: number;
         }
     }
 }
+*/
 
 interface RoomStats {
     myRoom: number;
@@ -27,6 +30,7 @@ interface RoomStats {
     energyCapacityAvailable: number;
     controllerProgress: number;
     controllerProgressTotal: number;
+    controllerLevel: number;
     storedEnergy: number;
 }
 
@@ -37,46 +41,47 @@ interface SpawnStats {
 // Put in your main loop
 export function generateStatsBK() {
 
-    if (Memory.stats == undefined) {
-        Memory.stats = {
-            rooms: {},
-            gcl: {
-                progress: 0,
-                progressTotal: 0,
-                level: 0
-            },
-            spawns: {},
-            cpu: {
-                bucket: 0,
-                limit: 0,
-                getUsed: 0
-            }
-        };
-    }
+    Memory.stats = {
+        rooms: {},
+        gcl: {
+            progress: 0,
+            progressTotal: 0,
+            level: 0
+        },
+        //spawns: {},
+        cpu: {
+            bucket: 0,
+            limit: 0,
+            used: 0
+        },
+        time: 0
+    };
 
     let rooms = Game.rooms;
     let spawns = Game.spawns;
     for (let roomKey in rooms) {
         let room: Room = Game.rooms[roomKey];
         let isMyRoom = (room.controller ? room.controller.my : 0);
-        
+        /*
         Memory.stats.rooms[room.name] = {
-            myRoom: 0,
+            //myRoom: 0,
             energyAvailable: 0,
             energyCapacityAvailable: 0,
             controllerProgress: 0,
             controllerProgressTotal: 0,
-            storedEnergy: 0
-        };
+            controllerLevel: 0,
+            //storedEnergy: 0
+        };*/
 
         if (isMyRoom) {
-            Memory.stats.rooms[room.name].myRoom = 1;
+            //Memory.stats.rooms[room.name].myRoom = 1;
             Memory.stats.rooms[room.name].energyAvailable = room.energyAvailable;
             Memory.stats.rooms[room.name].energyCapacityAvailable = room.energyCapacityAvailable;
 
             if (room.controller !== undefined) {
                 Memory.stats.rooms[room.name].controllerProgress = room.controller.progress;
                 Memory.stats.rooms[room.name].controllerProgressTotal = room.controller.progressTotal;
+                Memory.stats.rooms[room.name].controllerLevel = room.controller.level;
             }
             let stored = 0;
             let storedTotal = 0;
@@ -89,10 +94,10 @@ export function generateStatsBK() {
                 stored = 0;
                 storedTotal = 0;
             }
-            Memory.stats.rooms[room.name].storedEnergy = stored;
+            //Memory.stats.rooms[room.name].storedEnergy = stored;
         }
         else {
-            Memory.stats.rooms[room.name].myRoom = 0;
+            //Memory.stats.rooms[room.name].myRoom = 0;
         }
     }
 
@@ -103,10 +108,12 @@ export function generateStatsBK() {
     
     for (let spawnKey in spawns) {
         let spawn: StructureSpawn = Game.spawns[spawnKey];
+        /*
         Memory.stats.spawns[spawn.name] = {
             defenderIndex: 0
         };
         Memory.stats.spawns[spawn.name].defenderIndex = spawn.memory;
+        */
         //Memory.stats['spawn.' + spawn.name + '.defenderIndex'] = spawn.memory['defenderIndex'];
     }
     /*Memory.stats['cpu.CreepManagers'] = creepManagement;
@@ -119,5 +126,7 @@ export function generateStatsBK() {
     Memory.stats.cpu.bucket = Game.cpu.bucket;
     Memory.stats.cpu.limit = Game.cpu.limit;/*
     Memory.stats['cpu.stats'] = Game.cpu.getUsed() - lastTick;*/
-    Memory.stats.cpu.getUsed = Game.cpu.getUsed();
+    Memory.stats.cpu.used = Game.cpu.getUsed();
+
+    Memory.stats.time = Game.time;
 }

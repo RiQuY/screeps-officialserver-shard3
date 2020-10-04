@@ -2,83 +2,57 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-// Put in your main loop
-function generateStatsBK() {
-    if (Memory.stats == undefined) {
-        Memory.stats = {
-            rooms: {},
-            gcl: {
-                progress: 0,
-                progressTotal: 0,
-                level: 0
-            },
-            spawns: {},
-            cpu: {
-                bucket: 0,
-                limit: 0,
-                getUsed: 0
-            }
-        };
-    }
-    let rooms = Game.rooms;
-    let spawns = Game.spawns;
-    for (let roomKey in rooms) {
-        let room = Game.rooms[roomKey];
-        let isMyRoom = (room.controller ? room.controller.my : 0);
-        Memory.stats.rooms[room.name] = {
-            myRoom: 0,
-            energyAvailable: 0,
-            energyCapacityAvailable: 0,
-            controllerProgress: 0,
-            controllerProgressTotal: 0,
-            storedEnergy: 0
-        };
+// Call this function at the end of your main loop
+function exportStats() {
+    // Reset stats object
+    Memory.stats = {
+        cpu: {
+            bucket: 0,
+            limit: 0,
+            used: 0
+        },
+        gcl: {
+            level: 0,
+            progress: 0,
+            progressTotal: 0
+        },
+        rooms: {},
+        time: 0
+    };
+    Memory.stats.time = Game.time;
+    // Collect room stats
+    for (let roomName in Game.rooms) {
+        let room = Game.rooms[roomName];
+        let isMyRoom = (room.controller ? room.controller.my : false);
         if (isMyRoom) {
-            Memory.stats.rooms[room.name].myRoom = 1;
-            Memory.stats.rooms[room.name].energyAvailable = room.energyAvailable;
-            Memory.stats.rooms[room.name].energyCapacityAvailable = room.energyCapacityAvailable;
+            let roomStats = Memory.stats.rooms[roomName] = {
+                energyAvailable: 0,
+                energyCapacityAvailable: 0,
+                controllerLevel: 0,
+                controllerProgress: 0,
+                controllerProgressTotal: 0,
+                storageEnergy: 0,
+                terminalEnergy: 0
+            };
             if (room.controller !== undefined) {
-                Memory.stats.rooms[room.name].controllerProgress = room.controller.progress;
-                Memory.stats.rooms[room.name].controllerProgressTotal = room.controller.progressTotal;
+                roomStats.energyAvailable = room.energyAvailable;
+                roomStats.energyCapacityAvailable = room.energyCapacityAvailable;
+                roomStats.controllerProgress = room.controller.progress;
+                roomStats.controllerProgressTotal = room.controller.progressTotal;
+                roomStats.controllerLevel = room.controller.level;
+                roomStats.storageEnergy = (room.storage ? room.storage.store.energy : 0);
+                roomStats.terminalEnergy = (room.terminal ? room.terminal.store.energy : 0);
             }
-            let stored = 0;
-            let storedTotal = 0;
-            if (room.storage) {
-                stored = room.storage.store[RESOURCE_ENERGY];
-                storedTotal = room.storage.store.getCapacity();
-            }
-            else {
-                stored = 0;
-                storedTotal = 0;
-            }
-            Memory.stats.rooms[room.name].storedEnergy = stored;
-        }
-        else {
-            Memory.stats.rooms[room.name].myRoom = 0;
         }
     }
+    // Collect GCL stats
     Memory.stats.gcl.progress = Game.gcl.progress;
     Memory.stats.gcl.progressTotal = Game.gcl.progressTotal;
     Memory.stats.gcl.level = Game.gcl.level;
-    for (let spawnKey in spawns) {
-        let spawn = Game.spawns[spawnKey];
-        Memory.stats.spawns[spawn.name] = {
-            defenderIndex: 0
-        };
-        Memory.stats.spawns[spawn.name].defenderIndex = spawn.memory;
-        //Memory.stats['spawn.' + spawn.name + '.defenderIndex'] = spawn.memory['defenderIndex'];
-    }
-    /*Memory.stats['cpu.CreepManagers'] = creepManagement;
-    Memory.stats['cpu.Towers'] = towersRunning;
-    Memory.stats['cpu.Links'] = linksRunning;
-    Memory.stats['cpu.SetupRoles'] = roleSetup;
-    Memory.stats['cpu.Creeps'] = functionsExecutedFromCreeps;
-    Memory.stats['cpu.SumProfiling'] = sumOfProfiller;
-    Memory.stats['cpu.Start'] = startOfMain;*/
+    // Collect CPU stats
     Memory.stats.cpu.bucket = Game.cpu.bucket;
-    Memory.stats.cpu.limit = Game.cpu.limit; /*
-    Memory.stats['cpu.stats'] = Game.cpu.getUsed() - lastTick;*/
-    Memory.stats.cpu.getUsed = Game.cpu.getUsed();
+    Memory.stats.cpu.limit = Game.cpu.limit;
+    Memory.stats.cpu.used = Game.cpu.getUsed();
 }
 
 function deleteDeadCreeps() {
@@ -145,11 +119,11 @@ class RolesController {
 }
 
 function mainRoles(creep) {
-    recolectar(creep);
+    harvest(creep);
     //llenarSpawn(creep);
     mejorarControlador(creep);
 }
-function recolectar(creep) {
+function harvest(creep) {
     //const creep = Game.creeps[nombreCreep];
     /*
     if (creep.memory.working === true && creep.carry.energy === 0) {
@@ -175,23 +149,25 @@ function recolectar(creep) {
         }
       }
     }*/
-    if (creep.store[RESOURCE_ENERGY] < creep.store.getCapacity()) {
-        let sources = creep.room.find(FIND_SOURCES);
-        if (creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
-            creep.moveTo(sources[0], { visualizePathStyle: { stroke: '#ffaa00' } });
-        }
-    }
-    else {
-        let targets = creep.room.find(FIND_STRUCTURES, {
-            filter: (structure) => {
-                return (structure.structureType == STRUCTURE_EXTENSION ||
-                    structure.structureType == STRUCTURE_SPAWN ||
-                    structure.structureType == STRUCTURE_TOWER) && structure.energy < structure.energyCapacity;
+    if (!creep.memory.working) {
+        if (creep.store[RESOURCE_ENERGY] < creep.store.getCapacity()) {
+            let sources = creep.room.find(FIND_SOURCES);
+            if (creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(sources[0], { visualizePathStyle: { stroke: '#ffaa00' } });
             }
-        });
-        if (targets.length > 0) {
-            if (creep.transfer(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(targets[0], { visualizePathStyle: { stroke: '#ffffff' } });
+        }
+        else {
+            let targets = creep.room.find(FIND_STRUCTURES, {
+                filter: (structure) => {
+                    return (structure.structureType == STRUCTURE_EXTENSION ||
+                        structure.structureType == STRUCTURE_SPAWN ||
+                        structure.structureType == STRUCTURE_TOWER) && structure.energy < structure.energyCapacity;
+                }
+            });
+            if (targets.length > 0) {
+                if (creep.transfer(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(targets[0], { visualizePathStyle: { stroke: '#ffffff' } });
+                }
             }
         }
     }
@@ -226,6 +202,7 @@ function mejorarControlador(creep) {
     }
 }
 
+//import { generateStatsBK } from "./stats/StatsBK";
 // Compilar: npm run build
 const loop = function () {
     deleteDeadCreeps();
@@ -234,8 +211,8 @@ const loop = function () {
     for (const name in Memory.creeps) {
         mainRoles(Game.creeps[name]);
     }
-    generateStatsBK();
-    //exportStats();
+    //generateStatsBK();
+    exportStats();
     //Stats.run(); 
 };
 // IMPORTANTE, LEER Y APLICAR CUANDO SEA POSIBLE

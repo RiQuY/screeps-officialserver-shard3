@@ -1,5 +1,5 @@
-import { generateStatsBK } from "./stats/StatsBK";
-//import { exportStats } from "./stats/StatsAGS";
+//import { generateStatsBK } from "./stats/StatsBK";
+import { exportStats } from "./stats/StatsAGS";
 //import { Stats } from "./Stats/StatsOvermind";
 
 import { deleteDeadCreeps } from "./utils/MemoryClean";
@@ -21,8 +21,8 @@ export const loop = function () {
         mainRoles(Game.creeps[name]);
     }
 
-    generateStatsBK();
-    //exportStats();
+    //generateStatsBK();
+    exportStats();
     //Stats.run(); 
 };
 
