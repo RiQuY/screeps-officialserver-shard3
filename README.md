@@ -1,4 +1,4 @@
-# Screeps Code of Official Server in shard3
+# Screeps code of Official Server in shard3
 This project is the code I'm running on the game [Screeps](https://screeps.com/).
 
 The active repository is located on GitLab and mirrored to GitHub.
