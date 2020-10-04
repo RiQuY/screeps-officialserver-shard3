@@ -10,7 +10,7 @@ export class SpawnController {
 
                 //Memory.creeps.filter()
 
-                if (spawn.store[RESOURCE_ENERGY] >= 200 && Object.keys(Game.creeps).length <= 5) {
+                if (spawn.store[RESOURCE_ENERGY] >= 200 && Object.keys(Game.creeps).length < 3) {
                     Spawner.createHarvester(spawn);
                 }
             }

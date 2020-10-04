@@ -16,8 +16,9 @@ export function mainRoles(creep: Creep) {
     mejorarControlador(creep);
 }
 
-function recolectar(creep: Creep): void {/*
+function recolectar(creep: Creep): void {
     //const creep = Game.creeps[nombreCreep];
+    /*
     if (creep.memory.working === true && creep.carry.energy === 0) {
       creep.memory.working = false;
     }

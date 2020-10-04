@@ -17,7 +17,7 @@ export class Stats {
 			];
 			for (let key in Memory.stats) {
 				if (!protectedKeys.includes(key)) {
-					delete Memory.stats[key];
+					//delete Memory.stats[key];
 				}
 			}
 		}
@@ -51,7 +51,7 @@ export class Stats {
 	static run() {
 		if (Game.time % LOG_STATS_INTERVAL == 0) {
 			// Record IVM heap statistics
-			Memory.stats['cpu.heapStatistics'] = (<any>Game.cpu).getHeapStatistics();
+			//Memory.stats['cpu.heapStatistics'] = (<any>Game.cpu).getHeapStatistics();
 			// Log GCL
 			this.log('gcl.progress', Game.gcl.progress);
 			this.log('gcl.progressTotal', Game.gcl.progressTotal);

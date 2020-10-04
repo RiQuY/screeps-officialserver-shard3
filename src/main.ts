@@ -6,8 +6,8 @@ import { deleteDeadCreeps } from "./utils/MemoryClean";
 import { SpawnController } from "./controllers/SpawnController";
 import { RolesController } from "./controllers/RolesController";
 
-
-Memory.stats = {};
+// Temporal
+import { mainRoles } from "./old/Roles";
 
 // Compilar: npm run build
 export const loop = function () {
@@ -16,6 +16,10 @@ export const loop = function () {
     
     RolesController.main();
     SpawnController.main();
+
+    for (const name in Memory.creeps) {
+        mainRoles(Game.creeps[name]);
+    }
 
     generateStatsBK();
     //exportStats();
