@@ -21,6 +21,10 @@ export const loop = function () {
         mainRoles(Game.creeps[name]);
     }
 
+    if(Game.cpu.bucket > 9000) {
+        Game.cpu.generatePixel();
+    }
+
     //generateStatsBK();
     exportStats();
     //Stats.run(); 

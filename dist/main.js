@@ -211,6 +211,9 @@ const loop = function () {
     for (const name in Memory.creeps) {
         mainRoles(Game.creeps[name]);
     }
+    if (Game.cpu.bucket > 9000) {
+        Game.cpu.generatePixel();
+    }
     //generateStatsBK();
     exportStats();
     //Stats.run(); 
