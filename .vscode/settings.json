@@ -29,7 +29,6 @@
   "typescript.tsdk": "d:\\Archivos\\Repositorios\\Screeps\\OfficialServer\\shard3\\.yarn\\sdks\\typescript\\lib",
   "eslint.enable": true,
   "eslint.packageManager": "yarn",
-  "tslint.packageManager": "yarn",
   "prettier.packageManager": "yarn",
   "npm.packageManager": "yarn",
   "eslint.nodePath": ".yarn/sdks",
