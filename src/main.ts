@@ -10,7 +10,9 @@ import { exportStats } from "./stats/StatsAGS";
 // Temporal
 import { mainRoles } from "./old/Roles";
 
-// Compilar: yarn run build
+// Compilar: yarn build
+// Subir a sim: yarn push-sim
+// Subir a main: yarn push-main
 export const loop = ErrorMapper.wrapLoop(() => {
   deleteDeadCreeps();
 
