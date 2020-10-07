@@ -215,7 +215,7 @@ function mejorarControlador(creep) {
 }
 
 // import { generateStatsBK } from "./stats/StatsBK";
-// Compilar: npm run build
+// Compilar: yarn run build
 const loop = function () {
     deleteDeadCreeps();
     RolesController.main();
@@ -223,11 +223,11 @@ const loop = function () {
     for (const name in Memory.creeps) {
         mainRoles(Game.creeps[name]);
     }
-    if (Game.cpu.bucket > 9000) {
+    if (Game.cpu.bucket > 6000) {
         Game.cpu.generatePixel();
     }
-    // generateStatsBK();
     exportStats();
+    // generateStatsBK();
     // Stats.run();
 };
 // IMPORTANTE, LEER Y APLICAR CUANDO SEA POSIBLE

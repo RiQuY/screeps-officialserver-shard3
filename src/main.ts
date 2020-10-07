@@ -9,7 +9,7 @@ import { exportStats } from "./stats/StatsAGS";
 // Temporal
 import { mainRoles } from "./old/Roles";
 
-// Compilar: npm run build
+// Compilar: yarn run build
 export const loop = function (): void {
   deleteDeadCreeps();
 
@@ -20,12 +20,12 @@ export const loop = function (): void {
     mainRoles(Game.creeps[name]);
   }
 
-  if (Game.cpu.bucket > 9000) {
+  if (Game.cpu.bucket > 6000) {
     Game.cpu.generatePixel();
   }
 
-  // generateStatsBK();
   exportStats();
+  // generateStatsBK();
   // Stats.run();
 };
 
