@@ -1,1 +1,0 @@
-{"version":3,"file":"MemoryClean.js","sourceRoot":"","sources":["../../../src/utils/MemoryClean.ts"],"names":[],"mappings":"AAAA,MAAM,UAAU,gBAAgB;IAC9B,gDAAgD;IAChD,KAAK,MAAM,IAAI,IAAI,MAAM,CAAC,MAAM,EAAE;QAChC,IAAI,CAAC,CAAC,IAAI,IAAI,IAAI,CAAC,MAAM,CAAC,EAAE;YAC1B,OAAO,MAAM,CAAC,MAAM,CAAC,IAAI,CAAC,CAAC;SAC5B;KACF;AACH,CAAC"}

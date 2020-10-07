@@ -1,1 +1,0 @@
-{"version":3,"file":"RolesController.js","sourceRoot":"","sources":["../../../src/controllers/RolesController.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,qBAAqB,CAAC;AAQhD,MAAM,OAAO,eAAe;IACnB,MAAM,CAAC,IAAI;QAChB,MAAM,CAAC,SAAS,GAAG,IAAI,SAAS,CAAC,CAAC,EAAE,CAAC,EAAE,CAAC,EAAE,CAAC,CAAC,CAAC;IAC/C,CAAC;CACF"}
