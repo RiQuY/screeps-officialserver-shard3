@@ -8,10 +8,13 @@ Contributions and changes should **only** be done in the GitLab repo to avoid co
 
 Feel free to fork this project if you want to make your own version.
 Remember to run "npm install" and create your own screeps.json file to push your code to your game, you can follow this tutorial.
+
 https://screepers.gitbook.io/screeps-typescript-starter/in-depth/deploy-destinations
 
 If you want to run yarn remember to check the SDK compatibility and pnpify
+
 https://yarnpkg.com/advanced/pnpify
+
 https://yarnpkg.com/advanced/editor-sdks
 
 ## Active repository
