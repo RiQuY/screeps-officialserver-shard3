@@ -28,5 +28,7 @@ https://gitlab.com/RiQuY/screeps-officialserver-shard3
 ### Author
 
 RiQuY
+
 [My GitLab](https://gitlab.com/RiQuY)
+
 [My GitHub](https://github.com/RiQuY)
