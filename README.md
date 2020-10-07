@@ -11,9 +11,7 @@ Remember to run "npm install" and create your own screeps.json file to push your
 
 https://screepers.gitbook.io/screeps-typescript-starter/in-depth/deploy-destinations
 
-If you want to run yarn remember to check the SDK compatibility and pnpify
-
-https://yarnpkg.com/advanced/pnpify
+If you want to run yarn remember to check the SDK compatibility
 
 https://yarnpkg.com/advanced/editor-sdks
 
