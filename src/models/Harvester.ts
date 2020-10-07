@@ -1,3 +1,1 @@
-export class Harvester {
-
-}
+export class Harvester {}

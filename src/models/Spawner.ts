@@ -1,29 +1,31 @@
 export class Spawner {
+  private static generateOptions(role: string, room: string) {
+    const options: SpawnOptions = {
+      memory: {
+        role,
+        room,
+        working: false
+      }
+    };
 
-    private static generateOptions(role: string, room: string) {
-        let options: SpawnOptions = {
-            memory: {
-                role: role,
-                room: room,
-                working: false
-            } 
-        }
+    return options;
+  }
 
-        return options;
-    }
-    
-    public static createHarvester(spawn: StructureSpawn) {
-        let role = 'Harvester';
-        spawn.spawnCreep([WORK, CARRY, MOVE], 'Harvester '+Game.time, Spawner.generateOptions(role, spawn.room.name) );
-    }
+  public static createHarvester(spawn: StructureSpawn): void {
+    const role = "Harvester";
+    const time = String(Game.time);
+    spawn.spawnCreep([WORK, CARRY, MOVE], "Harvester " + time, Spawner.generateOptions(role, spawn.room.name));
+  }
 
-    public static crearMejorador(spawn: StructureSpawn): void {
-        let role = 'Upgrader';
-        spawn.spawnCreep([WORK, CARRY, MOVE], 'Upgrader '+Game.time, Spawner.generateOptions(role, spawn.room.name) );
-    }
-    
-    public static crearConstructor(spawn: StructureSpawn): void {
-        let role = 'Builder';
-        spawn.spawnCreep([WORK, CARRY, MOVE], 'Upgrader '+Game.time, Spawner.generateOptions(role, spawn.room.name) );
-    }
+  public static crearMejorador(spawn: StructureSpawn): void {
+    const role = "Upgrader";
+    const time = String(Game.time);
+    spawn.spawnCreep([WORK, CARRY, MOVE], "Upgrader " + time, Spawner.generateOptions(role, spawn.room.name));
+  }
+
+  public static crearConstructor(spawn: StructureSpawn): void {
+    const role = "Builder";
+    const time = String(Game.time);
+    spawn.spawnCreep([WORK, CARRY, MOVE], "Upgrader " + time, Spawner.generateOptions(role, spawn.room.name));
+  }
 }

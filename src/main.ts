@@ -1,33 +1,32 @@
-//import { generateStatsBK } from "./stats/StatsBK";
-import { exportStats } from "./stats/StatsAGS";
-//import { Stats } from "./Stats/StatsOvermind";
+// import { generateStatsBK } from "./stats/StatsBK";
+// import { Stats } from "./Stats/StatsOvermind";
 
-import { deleteDeadCreeps } from "./utils/MemoryClean";
-import { SpawnController } from "./controllers/SpawnController";
 import { RolesController } from "./controllers/RolesController";
+import { SpawnController } from "./controllers/SpawnController";
+import { deleteDeadCreeps } from "./utils/MemoryClean";
+import { exportStats } from "./stats/StatsAGS";
 
 // Temporal
 import { mainRoles } from "./old/Roles";
 
 // Compilar: npm run build
-export const loop = function () {
-    
-    deleteDeadCreeps();
-    
-    RolesController.main();
-    SpawnController.main();
+export const loop = function (): void {
+  deleteDeadCreeps();
 
-    for (const name in Memory.creeps) {
-        mainRoles(Game.creeps[name]);
-    }
+  RolesController.main();
+  SpawnController.main();
 
-    if(Game.cpu.bucket > 9000) {
-        Game.cpu.generatePixel();
-    }
+  for (const name in Memory.creeps) {
+    mainRoles(Game.creeps[name]);
+  }
 
-    //generateStatsBK();
-    exportStats();
-    //Stats.run(); 
+  if (Game.cpu.bucket > 9000) {
+    Game.cpu.generatePixel();
+  }
+
+  // generateStatsBK();
+  exportStats();
+  // Stats.run();
 };
 
 // IMPORTANTE, LEER Y APLICAR CUANDO SEA POSIBLE

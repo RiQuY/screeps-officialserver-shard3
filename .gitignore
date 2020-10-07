@@ -1,5 +1,6 @@
 # yarn lock file
 /yarn.lock
+/.pnp.js
 
 # npm lock file (v5.0.0+)
 /package-lock.json
@@ -9,7 +10,8 @@
 /tsc-out
 /node_modules
 /_book
-
+/build/*
+/.yarn
 # TypeScript definitions installed by Typings
 /typings
 
